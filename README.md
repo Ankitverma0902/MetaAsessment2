@@ -1,4 +1,6 @@
-# CustomToken: A Smart Contract for Mintable and Burnable Tokens on the Ethereum Blockchain
+
+# Title
+ ### CustomToken: A Smart Contract for Mintable and Burnable Tokens on the Ethereum Blockchain
 
 ## Description
 The CustomToken project is a smart contract written in Solidity for the Ethereum blockchain. This contract allows for the creation, minting, and burning of a custom cryptocurrency. The contract includes functionalities to define a token with a specific name and symbol, mint new tokens to increase the total supply, burn tokens to decrease the total supply, and track balances of different addresses. Events are used to log significant actions, ensuring transparency and enabling interaction with off-chain applications.
