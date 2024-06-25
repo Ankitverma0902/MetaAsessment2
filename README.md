@@ -1,123 +1,145 @@
-
-# Title
- ### CustomToken: A Smart Contract for Mintable and Burnable Tokens on the Ethereum Blockchain
+# MyToken: A Simple ERC20-like Token Implementation on Ethereum
 
 ## Description
-The CustomToken project is a smart contract written in Solidity for the Ethereum blockchain. This contract allows for the creation, minting, and burning of a custom cryptocurrency. The contract includes functionalities to define a token with a specific name and symbol, mint new tokens to increase the total supply, burn tokens to decrease the total supply, and track balances of different addresses. Events are used to log significant actions, ensuring transparency and enabling interaction with off-chain applications.
+MyToken is a simple implementation of an ERC20-like token on the Ethereum blockchain. This smart contract includes basic functionalities such as minting new tokens, burning existing tokens, and keeping track of balances. It provides a foundational example for learning about blockchain technology and smart contract development using Solidity.
 
-## Program Executing
-To deploy and execute the CustomToken smart contract, follow these steps:
+## Getting Started
 
-### Setup Environment
-1. Use Remix Ethereum IDE or a local development environment with Truffle or Hardhat.
-2. Ensure you have an Ethereum client like MetaMask for deployment and interaction.
+### Token Details
+- **Token Name**: META
+- **Token Abbreviation**: MTA
+- **Total Supply**: Variable, initially 0
 
-### Deploy the Contract
-1. Copy the contract code into Remix or your preferred IDE.
-2. Compile the contract using Solidity compiler version 0.8.18.
-3. Deploy the contract by providing the token name and symbol during deployment.
+### Balances Mapping
+- Mapping of addresses to their respective token balances.
 
-### Interact with the Contract
-1. Use the deployed contract's functions `mint` and `burn` to manage tokens.
-2. Monitor events for logging and external application interactions.
+### Mint Function
+- Allows increasing the total supply and the balance of a specified address.
 
-## Explanation
+### Burn Function
+- Allows decreasing the total supply and the balance of a specified address, with checks to ensure sufficient balance.
 
-### Solidity Version and License
-The contract starts with the SPDX license identifier and Solidity version declaration to ensure compatibility and licensing clarity.
+## Installing
+
+1. **Search Remix**: Go to [remix.ethereum.org](https://remix.ethereum.org/).
+2. **Create a File**: Create a new file in Remix and name it `MyToken.sol`.
+3. **Copy the Contract Code**: Copy and paste the following Solidity contract code into the `MyToken.sol` file:
 
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
-```
 
-### Contract Declaration
-The CustomToken contract is declared, and public variables to store token details are defined.
+/*
+   REQUIREMENTS
+1. Your contract will have public variables that store the details about your coin (Token Name, Token Abbrv., Total Supply)
+2. Your contract will have a mapping of addresses to balances (address => uint)
+3. You will have a mint function that takes two parameters: an address and a value. 
+   The function then increases the total supply by that number and increases the balance 
+   of the “sender” address by that amount
+4. Your contract will have a burn function, which works the opposite of the mint function, as it will destroy tokens. 
+   It will take an address and value just like the mint functions. It will then deduct the value from the total supply 
+   and from the balance of the “sender”.
+5. Lastly, your burn function should have conditionals to make sure the balance of "sender" is greater than or equal 
+   to the amount that is supposed to be burned.
+*/
 
-```solidity
-contract CustomToken {
-    string public tokenName;
-    string public tokenSymbol;
-    uint256 public totalTokens;
-```
+contract MyToken {
 
-### Mapping for Balances
-A mapping is used to track the balances of each address.
+    // Public variables here
+    string public tokenName = "META";
+    string public tokenAbbrv = "MTA";
+    uint public totalSupply = 0;
 
-```solidity
-    mapping(address => uint256) public accountBalances;
-```
+    // Mapping variable here
+    mapping(address => uint) public balances;
 
-### Constructor
-The constructor initializes the token's name, symbol, and sets the initial total supply to zero.
-
-```solidity
-    constructor(string memory _tokenName, string memory _tokenSymbol) {
-        tokenName = _tokenName;
-        tokenSymbol = _tokenSymbol;
-        totalTokens = 0;
+    // Mint function
+    function mint(address _address, uint _value) public {
+        totalSupply += _value;
+        balances[_address] += _value;
     }
-```
 
-### Mint Function
-The mint function allows creating new tokens by increasing the total supply and the recipient's balance. An event is emitted to log this action.
-
-```solidity
-    function mint(address recipient, uint256 amount) public {
-        require(amount > 0, "Mint amount must be greater than zero");
-        totalTokens += amount;
-        accountBalances[recipient] += amount;
-        emit TokenTransfer(address(0), recipient, amount);
+    // Burn function
+    function burn(address _address, uint _value) public {
+        require(balances[_address] >= _value, "Insufficient balance to burn");
+        totalSupply -= _value;
+        balances[_address] -= _value;
     }
+}
 ```
 
-### Burn Function
-The burn function allows destroying tokens by decreasing the total supply and the holder's balance, ensuring the holder has sufficient tokens. An event is emitted to log this action.
+4. **Compile the Contract**:
+   - Click on the "Solidity Compiler" tab (looks like an "S" in the left sidebar).
+   - Ensure the compiler version is set to 0.8.18.
+   - Click the "Compile MyToken.sol" button.
 
+5. **Deploy the Contract**:
+   - Click on the "Deploy & Run Transactions" tab (looks like a "rocket" in the left sidebar).
+   - Ensure the "Environment" is set to "JavaScript VM (London)" for local testing.
+   - Click the "Deploy" button.
+
+6. **Interact with the Contract**:
+   - After deploying, your contract will appear under "Deployed Contracts" in the same tab.
+   - You can expand it to see the available functions and variables.
+
+## Executing Program
+
+### Open Remix
+1. **Create a New File**:
+   - On the left panel, under the "File Explorer" tab, click on the "New File" button.
+   - Name your file `MyToken.sol`.
+
+2. **Copy the Contract Code**:
+   - Copy and paste the provided Solidity contract code into the new file `MyToken.sol`.
+
+3. **Compile the Contract**:
+   - Click on the "Solidity Compiler" tab.
+   - Ensure the compiler version is set to 0.8.18.
+   - Click the "Compile MyToken.sol" button.
+
+4. **Deploy the Contract**:
+   - Click on the "Deploy & Run Transactions" tab.
+   - Ensure the "Environment" is set to "JavaScript VM (London)" for local testing.
+   - Click the "Deploy" button.
+
+5. **Interact with the Contract**:
+   - After deploying, your contract will appear under "Deployed Contracts" in the same tab.
+   - You can expand it to see the available functions and variables.
+
+6. **Test the Contract**:
+   - **Check Initial State**: Click on `tokenName`, `tokenAbbrv`, and `totalSupply` to see their initial values. Click on `balances` and enter your address to see the initial balance (should be 0).
+
+### Mint Tokens
+To mint tokens, use the `mint` function:
 ```solidity
-    function burn(address holder, uint256 amount) public {
-        require(amount > 0, "Burn amount must be greater than zero");
-        require(accountBalances[holder] >= amount, "Insufficient balance to burn");
-        totalTokens -= amount;
-        accountBalances[holder] -= amount;
-        emit TokenTransfer(holder, address(0), amount);
-    }
+function mint(address _address, uint _value) public {
+    totalSupply += _value;
+    balances[_address] += _value;
+}
 ```
 
-### Event Declaration
-The `TokenTransfer` event logs token transfer actions, including minting and burning.
-
+### Burn Tokens
+To burn tokens, use the `burn` function:
 ```solidity
-    event TokenTransfer(address indexed from, address indexed to, uint256 value);
+function burn(address _address, uint _value) public {
+    require(balances[_address] >= _value, "Insufficient balance to burn");
+    totalSupply -= _value;
+    balances[_address] -= _value;
 }
 ```
 
 ## Output
-Upon deploying and interacting with the CustomToken contract, the following outputs can be observed:
+Upon deploying and interacting with the MyToken contract, the following outputs can be observed:
 
-### Deployment
-The contract is deployed with the specified token name and symbol. Initial total supply is zero.
+- **Deployment**: The contract is deployed with the specified token name and symbol. Initial total supply is zero.
+- **Minting Tokens**: Tokens are minted to the specified address, increasing the total supply and updating the recipient's balance.
+- **Burning Tokens**: Tokens are burned from the specified address, decreasing the total supply and updating the holder's balance.
 
-### Minting Tokens
-Tokens are minted to the specified address, increasing the total supply and updating the recipient's balance.
+## Help
+Focus on coding part and syntax so that chances of error are less.
 
-### Burning Tokens
-Tokens are burned from the specified address, decreasing the total supply and updating the holder's balance.
+## Authors
+- **Ankit Verma** - *Initial work* 
 
-### Event Logs
-`TokenTransfer` events are emitted for both minting and burning actions, providing a transparent log of these actions.
-
-## Example Outputs
-
-### Minting
-```
-TokenTransfer(address(0), recipient_address, 100);
-```
-
-### Burning
-```
-TokenTransfer(holder_address, address(0), 50);
-```
-
-## Thanks Note
-Thank you for exploring the CustomToken project. This smart contract demonstrates the foundational concepts of token creation and management on the Ethereum blockchain. By understanding and utilizing these principles, you can develop more complex and feature-rich decentralized applications. Should you have any questions or need further assistance, feel free to reach out. Happy coding!
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details
